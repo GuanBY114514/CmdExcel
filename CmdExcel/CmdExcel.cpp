@@ -10,6 +10,7 @@ using namespace std;
 Chartfunc chartfunc;
 ChartIO chart_IO;
 Cellsfunc cellsfunc;
+History history;
 //表格内容
 int chartn[2000][2000];
 //表格列
@@ -83,11 +84,7 @@ int main()
 	{
 		if (commd == "write")
 		{
-			//empty
-		}
-		else if (commd == "add")
-		{
-			//empty
+			cellsfunc.write(select_row, select_col, chartn);
 		}
 		else if (commd == "help")
 		{
@@ -100,7 +97,6 @@ int main()
 		}
 		else if (commd == "view")
 		{
-			system("cls");
 			chart_IO.view_chart(table_row, table_col, chartn);
 			cout << "Command:" << endl;
 		}
@@ -111,7 +107,6 @@ int main()
 				printf("Please type cell you want to select \n Form: row,col \n");
 				scanf("%d,%d", &select_row, &select_col);
 			}
-			system("cls");
 			chart_IO.view_chart(table_row, table_col, chartn);
 			cout << "Select successfully\nCommands:";
 		}
@@ -121,7 +116,8 @@ int main()
 		}
 		else if (commd == "max")
 		{
-			//empty
+			cellsfunc.fmax(select_row, select_col, chartn);
+			chart_IO.view_chart(table_row, table_col, chartn);
 		}
 		else if (commd == "min")
 		{
@@ -150,6 +146,10 @@ int main()
 		else if (commd == "chkselect")
 		{
 			printf("select_row:%d select_col:%d", select_row, select_col);
+		}
+		else if (commd == "formula")
+		{
+
 		}
 		else if (commd == "exit")
 		{

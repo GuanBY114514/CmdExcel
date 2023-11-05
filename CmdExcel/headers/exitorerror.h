@@ -11,3 +11,4 @@
 #define Exit_func_wrong -1
 #define Start_to_end_is_no_cells 0xFFF5
 #define Is_not_char 0xFFF6
+#define Min_func_over 0xFFF7

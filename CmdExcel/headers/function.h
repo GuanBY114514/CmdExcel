@@ -31,13 +31,21 @@ public:
 	int count_digit(int x);
 	//平均值
 	void average(int select_rowl, int select_coll, int content[2000][2000]);
+	//写入
+	void write(int st_row, int st_col, int content[2000][2000]);
+	void fmax(int st_row, int st_col, int content[2000][2000]);
 }cellsfun;
 //------------------------------------------------------------------------------------------
 bool Cellsfunc::check_select(int s_row, int s_col)
 {
-	if (s_row > 0 && s_col > 0)
+	if (s_row > 0 && s_col > 0 )
 	{
 		return true;
+	}
+	else if(s_row > 2000 || s_col > 2000)
+	{
+		std::cerr << "Exceeding Table Size" << std::endl;
+		return false;
 	}
 	else
 	{
@@ -206,5 +214,44 @@ void Cellsfunc::average(int select_rowl, int select_coll, int content[2000][2000
 		}
 	}
 	content[select_rowl][select_coll] = sum / cnt_cell;
+	return;
+}
+void Cellsfunc::write(int st_row, int st_col, int content[2000][2000])
+{
+	if (cellsfun.check_select(st_row, st_col))
+	{
+		int cont = 0;
+		std::cout << "Please enter the value for the selected cell" << std::endl;
+		std::cin >> cont;
+		content[st_row][st_col] = cont;
+		return;
+	}
+	else
+	{ }
+}
+void Cellsfunc::fmax(int st_row, int st_col, int content[2000][2000])
+{
+	int s_row, s_col, e_row, e_col;
+	std::cout << "Please the cells you want to find\nForm:start_row,start_column end_row,end_cloumn\n";
+	while (true)
+	{
+		if (scanf("%d,%d", &s_row, &s_col) && scanf("%d,%d", &e_row, &e_col))
+		{
+			break;
+		}
+		else
+		{
+			std::cerr << "From is wrong\nMust be start_row,start_column end_row,end_cloumn\n";
+		}
+	}
+	int maxx = 0;
+	for (int i = s_row; i < e_row; i++)
+	{
+		for (int j = s_col; j <= e_col; j++)
+		{
+			maxx = max(maxx, content[i][j]);
+		}
+	}
+	content[st_row][st_col] = maxx;
 	return;
 }
