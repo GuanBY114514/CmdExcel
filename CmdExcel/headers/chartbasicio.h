@@ -1,9 +1,11 @@
 #pragma once
+//Start:Chart_Basic_Input_output
 #ifndef CHARTBASICIO_H
 #define CHARTBASICIO_H
 #endif // !CHARTBASICIO_H
 #include<iostream>
 #include"function.h"
+#include"exitorerror.h"
 class ChartIO
 {
 public:
@@ -12,6 +14,8 @@ public:
 	void open_file(std::string file_open_path);
 	void get_chart(int r, int c, int content[2000][2000], char mode);
 	void get_help(void);
+	int exit_command(char File_mode);
+	int exit_program(int exit_value, int r, int l, int content[2000][2000]);
 };
 Cellsfunc cedfn;
 void ChartIO::welcome(void)
@@ -106,3 +110,87 @@ void ChartIO::get_help(void)
 	cout << "sum --summation of the select cells" << endl;
 	cout << endl;
 }
+int ChartIO::exit_command(char File_mode)
+{
+	int exit_value = 0;
+	using namespace std;
+	if (File_mode == 'o')
+	{
+		cout << "Do you want to save the changes ?(Y/N)" << endl;
+		char isp;
+		while (1)
+		{
+			std::cin >> isp;
+			if (isp == 'Y')
+			{
+				exit_value = 1;
+				break;
+			}
+			else if (isp == 'N')
+			{
+				exit_value = 2;
+				break;
+			}
+			else
+			{
+				cout << "Please type the correct letter (Y/N)" << endl;
+				exit_value = 0;
+			}
+		}
+	}
+	else
+	{
+		cout << "Do you want to save this chart? (Y/N)" << endl;
+		char isp;
+		while (1)
+		{
+			cin >> isp;
+			if (isp == 'Y')
+			{
+				exit_value = 1;
+				break;
+			}
+			else if (isp == 'N')
+			{
+				exit_value = 2;
+				break;
+			}
+			else
+			{
+				cout << "Please type the correct letter (Y or N)" << endl;
+				exit_value = 0;
+			}
+		}
+	}
+	return exit_value;
+}
+int ChartIO::exit_program(int exit_value, int r, int l, int content[2000][2000])
+{
+	using namespace std;
+	if (exit_value == 2)
+	{
+		cout << "Command executed, program will exit in 5 seconds";
+		_sleep(5000);
+		return Exit_with_no_save;
+	}
+	else
+	{
+		string F_P;
+		cout << "Please type the path that you want to save your chart, From: Decive:/path/.../(filename).extension" << endl;
+		cin >> F_P;
+		const char* file_path_exit = F_P.c_str();
+		cout << "Saving successfully,the program will exit in 5 seconds";
+		freopen( file_path_exit, "w", stdout);
+		cout << r << " " << l << endl;
+		for (int i = 1; i <= r; i++)
+		{
+			for (int j = 1; j <= l; j++)
+			{
+				cout << content[i][j] << " ";
+			}
+			cout << endl;
+		}
+		return Exit_with_save;
+	}
+}
+//End:Chart_Basic_Input_output

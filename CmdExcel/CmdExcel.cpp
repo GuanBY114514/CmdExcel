@@ -102,13 +102,15 @@ int main()
 		}
 		else if (commd == "select")
 		{
+			select_row = 0;
+			select_col = 0;
 			while (!cellsfunc.check_select(select_row, select_col))
 			{
 				printf("Please type cell you want to select \n Form: row,col \n");
 				scanf("%d,%d", &select_row, &select_col);
 			}
-			chart_IO.view_chart(table_row, table_col, chartn);
-			cout << "Select successfully\nCommands:";
+				chart_IO.view_chart(table_row, table_col, chartn);
+				cout << "Select successfully\nCommands:";
 		}
 		else if (commd == "sum")
 		{
@@ -121,7 +123,8 @@ int main()
 		}
 		else if (commd == "min")
 		{
-			//empty
+			cellsfunc.fmin(select_row, select_col, chartn);
+			chart_IO.view_chart(table_row, table_col, chartn);
 		}
 		else if (commd == "average")
 		{
@@ -153,54 +156,7 @@ int main()
 		}
 		else if (commd == "exit")
 		{
-			if (file_mode == 'o')
-			{
-				cout << "Do you want to save the changes ?(Y/N)" << endl;
-				char isp;
-				while (1)
-				{
-					cin >> isp;
-					if (isp == 'Y')
-					{
-						exitvalue = 1;
-						break;
-					}
-					else if (isp == 'N')
-					{
-						exitvalue = 2;
-						break;
-					}
-					else
-					{
-						cout << "Please type the correct letter (Y/N)" << endl;
-						exitvalue = 0;
-					}
-				}
-			}
-			else
-			{
-				cout << "Do you want to save this chart? (Y/N)" << endl;
-				char isp;
-				while (1)
-				{
-					cin >> isp;
-					if (isp == 'Y')
-					{
-						exitvalue = 1;
-						break;
-					}
-					else if (isp == 'N')
-					{
-						exitvalue = 2;
-						break;
-					}
-					else
-					{
-						cout << "Please type the correct letter (Y or N)" << endl;
-						exitvalue = 0;
-					}
-				}
-			}
+			exitvalue = chart_IO.exit_command(file_mode);
 			//退出模块
 			if (exitvalue != 0)
 			{
@@ -214,29 +170,7 @@ int main()
 		}
 		chart_IO.view_chart(table_row, table_col, chartn);
 	}
-	if (exitvalue == 2)
-	{
-		cout << "Command executed, program will exit in 5 seconds";
-		_sleep(5000);
-		return 2;
-	}
-	else if(exitvalue == 1)
-	{
-		cout << "Please type the path that you want to save your chart, From: Decive:/path/.../(filename).extension" << endl;
-		cin >> file_path;
-		const char* file_path_exit = file_path.c_str();
-		cout << "Saving successfully,the program will exit in 5 seconds";
-		freopen_s(&stream1, file_path_exit, "w", stdout);
-		cout << table_row << " " << table_col << endl;
-		for (int i = 1; i <= table_row; i++)
-		{
-			for (int j = 1; j <= table_col; j++)
-			{
-				cout << chartn[i][j] << " ";
-			}
-			cout << endl;
-		}
-	}
+	int exit_program_value = chart_IO.exit_program(exitvalue, table_row, table_col, chartn);
 	_sleep(5000);
-	return Exit_correct;
+	return exit_program_value;
 }

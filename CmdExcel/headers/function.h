@@ -33,7 +33,10 @@ public:
 	void average(int select_rowl, int select_coll, int content[2000][2000]);
 	//写入
 	void write(int st_row, int st_col, int content[2000][2000]);
+	//最大值
 	void fmax(int st_row, int st_col, int content[2000][2000]);
+	//最小值
+	void fmin(int st_row, int st_col, int content[2000][2000]);
 }cellsfun;
 //------------------------------------------------------------------------------------------
 bool Cellsfunc::check_select(int s_row, int s_col)
@@ -253,5 +256,52 @@ void Cellsfunc::fmax(int st_row, int st_col, int content[2000][2000])
 		}
 	}
 	content[st_row][st_col] = maxx;
+	return;
+}
+void Cellsfunc::fmin(int st_row, int st_col, int content[2000][2000])
+{
+	int s_row, s_col, e_row, e_col;
+	bool is_find_zero = false;
+	std::cout << "Please the cells you want to find\nForm:start_row,start_column end_row,end_cloumn\n";
+	while (true)
+	{
+		if (scanf("%d,%d", &s_row, &s_col) && scanf("%d,%d", &e_row, &e_col))
+		{
+			break;
+		}
+		else
+		{
+			std::cerr << "From is wrong\nMust be start_row,start_column end_row,end_cloumn\n";
+		}
+	}
+	std::cout << "Do you want to find include 0?\nType N or Y" << std::endl;
+	char tmps = 'N';
+	while (std::cin >> tmps)
+	{
+		chartfun.toupper(tmps);
+		if (tmps == 'N')
+		{
+			is_find_zero = false;
+			break;
+		}
+		else if (tmps == 'Y')
+		{
+			is_find_zero = true;
+			break;
+		}
+		else
+		{
+			std::cerr << "Type Error:Must be 'N' or 'Y'" << std::endl;
+		}
+	}
+	int minn = INT_MAX;
+	for (int i = s_row; i < e_row; i++)
+	{
+		for (int j = s_col; j <= e_col; j++)
+		{
+			minn = min(minn, content[i][j]);
+		}
+	}
+	content[st_row][st_col] = minn;
 	return;
 }
