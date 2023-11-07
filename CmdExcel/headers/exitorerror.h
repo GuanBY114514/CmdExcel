@@ -7,6 +7,7 @@
 #define Exit_before_open 0xF001
 #define Exit_with_save 0xF002
 #define Exit_with_no_save 0xF003
+#define Exit_with_preview 0xF004
 //function exit value
 #define Exit_func_help 0xFFFF
 #define Exit_func_wrong -1

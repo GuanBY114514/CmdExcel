@@ -43,6 +43,16 @@ int main()
 			cout << "Please type the row and collum of the chart you want to create" << endl;
 			break;
 		}
+		else if (file_mode == 'h')
+		{
+
+			return Exit_with_preview;
+		}
+		else if (file_mode == 'r')
+		{
+			chart_IO.preview_chart(chartn);
+			return Exit_with_preview;
+		}
 		else
 		{
 			cout << "Command error" << endl;
@@ -68,7 +78,7 @@ int main()
 	{
 		cin >> table_row >> table_col;
 	}
-	chart_IO.get_chart(table_row, table_col, chartn, file_mode);
+	chart_IO.get_chart(table_row, table_col, chartn);
 	//命令
 	string commd = "";
 	//退出值
@@ -76,7 +86,6 @@ int main()
 	system("cls");
 	chart_IO.view_chart(table_row, table_col, chartn);
 	cout << endl;
-	cout << "Type command" <<endl;
 	int select_row = 0, select_col = 0;
 	freopen_s(&stream1, "CON", "r", stdin);
 	//命令功能模块
@@ -85,6 +94,9 @@ int main()
 		if (commd == "write")
 		{
 			cellsfunc.write(select_row, select_col, chartn);
+			cout << "Command execution successful\n";
+			_sleep(2000);
+			chart_IO.view_chart(table_row, table_col, chartn);
 		}
 		else if (commd == "help")
 		{
@@ -109,12 +121,16 @@ int main()
 				printf("Please type cell you want to select \n Form: row,col \n");
 				scanf("%d,%d", &select_row, &select_col);
 			}
-				chart_IO.view_chart(table_row, table_col, chartn);
-				cout << "Select successfully\nCommands:";
+			chart_IO.view_chart(table_row, table_col, chartn);
+			cout << "Select successfully\n";
+			_sleep(2000);
 		}
 		else if (commd == "sum")
 		{
-			//empty
+			cellsfunc.fsum(select_row, select_col, chartn);
+			cout << "Command execution successful\n";
+			_sleep(2000);
+			chart_IO.view_chart(table_row, table_col, chartn);
 		}
 		else if (commd == "max")
 		{
@@ -131,28 +147,29 @@ int main()
 			cellsfunc.average(select_row, select_col, chartn);
 			system("cls");
 			cout << "Command exceute Syccessfully\n";
+			_sleep(1000);
 			chart_IO.view_chart(table_row, table_col, chartn);
 		}
-		//求平均值模块
 		else if (commd == "addrow")
 		{
 			string cod;
 			table_row = cellsfunc.addrow(table_row, cod);
 		}
-		//加行
 		else if (commd == "addcol")
 		{
 			string cod;
 			table_col = cellsfunc.addcol(table_col, cod);
 		}
-		//加列
 		else if (commd == "chkselect")
 		{
 			printf("select_row:%d select_col:%d", select_row, select_col);
 		}
 		else if (commd == "formula")
 		{
-
+			cellsfunc.formula(select_row, select_col, chartn);
+			cout << "Command exceute Syccessfully\n";
+			_sleep(1000);
+			chart_IO.view_chart(table_row, table_col, chartn);
 		}
 		else if (commd == "exit")
 		{

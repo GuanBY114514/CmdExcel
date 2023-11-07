@@ -1,7 +1,9 @@
 #pragma once
 #pragma warning(disable:4996)
 #pragma warning(disable:6031)
+#include<stack>
 #include"exitorerror.h"
+#include<bits/stdc++.h>
 #ifndef FUNCTION_H
 #define FUNCTION_H
 #endif // !FUNCTION_H
@@ -37,6 +39,10 @@ public:
 	void fmax(int st_row, int st_col, int content[2000][2000]);
 	//最小值
 	void fmin(int st_row, int st_col, int content[2000][2000]);
+	//公式
+	void formula(int st_row, int st_col, int content[2000][2000]);
+	//求和
+	void fsum(int st_row, int st_col, int content[2000][2000]);
 }cellsfun;
 //------------------------------------------------------------------------------------------
 bool Cellsfunc::check_select(int s_row, int s_col)
@@ -248,7 +254,7 @@ void Cellsfunc::fmax(int st_row, int st_col, int content[2000][2000])
 		}
 	}
 	int maxx = 0;
-	for (int i = s_row; i < e_row; i++)
+	for (int i = s_row; i <= e_row; i++)
 	{
 		for (int j = s_col; j <= e_col; j++)
 		{
@@ -295,13 +301,82 @@ void Cellsfunc::fmin(int st_row, int st_col, int content[2000][2000])
 		}
 	}
 	int minn = INT_MAX;
-	for (int i = s_row; i < e_row; i++)
+	for (int i = s_row; i <= e_row; i++)
 	{
 		for (int j = s_col; j <= e_col; j++)
 		{
-			minn = min(minn, content[i][j]);
+			if (is_find_zero == true)
+			{
+				minn = min(minn, content[i][j]);
+			}
+			else
+			{
+				if (content[i][j] != 0)
+				{
+					minn = min(minn, content[i][j]);
+				}
+			}
 		}
 	}
 	content[st_row][st_col] = minn;
 	return;
+}
+void Cellsfunc::formula(int st_row, int st_col, int content[2000][2000])
+{
+	int s1, c1, s2, c2;
+	char operater_c;
+	std::cout << "Please type the formula you want to calucate\nForm:r1,c1 operater r2,c2\n";
+	while(true)
+	{
+		if (scanf("%d,%d", &s1, &c1) && std::cin>>operater_c && scanf("%d,%d", &s2, &c2))
+		{
+			if (operater_c == '+' || operater_c == '%' || operater_c == '/' || operater_c == '*' || operater_c == '-')
+			{
+				break;
+			}
+			else
+			{
+				std::cout << "Operater is wrong\n";
+			}
+		}
+		else
+		{
+			std::cerr << "Form is wrong\nr1,c1 operater r2,c2\n";
+		}
+	}
+	switch (operater_c)
+	{
+		case'+':content[st_row][st_col] = content[s1][c1] + content[s2][c2]; return;
+		case'-':content[st_row][st_col] = content[s1][c1] - content[s2][c2]; return;
+		case'*':content[st_row][st_col] = content[s1][c1] * content[s2][c2]; return;
+		case'/':content[st_row][st_col] = content[s1][c1] / content[s2][c2]; return;
+		case'%':content[st_row][st_col] = content[s1][c1] % content[s2][c2]; return;
+		default:;
+	}
+	
+}
+void Cellsfunc::fsum(int st_row, int st_col, int content[2000][2000])
+{
+	int s_row, s_col, e_row, e_col;
+	std::cout << "Please type the cells you want to summarize\nForm: start_row,start_col end_row,end_col\n";
+	while (true)
+	{
+		if (scanf("%d,%d", &s_row, &s_col) && scanf("%d,%d", &e_row, &e_col))
+		{
+			break;
+		}
+		else
+		{
+			std::cerr << "From is wrong\nMust be start_row,start_column end_row,end_cloumn\nPlease type again\n";
+		}
+	}
+	int sum_num = 0;
+	for (int i = s_row; i <= e_row; i++)
+	{
+		for (int j = s_col; j <= e_col; j++)
+		{
+			sum_num += content[i][j];
+		}
+	}
+	content[st_row][st_col] = sum_num;
 }

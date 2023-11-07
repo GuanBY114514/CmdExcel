@@ -12,8 +12,9 @@ public:
 	void welcome(void);
 	void view_chart(int r, int c, int content[2000][2000]);
 	void open_file(std::string file_open_path);
-	void get_chart(int r, int c, int content[2000][2000], char mode);
+	void get_chart(int r, int c, int content[2000][2000]);
 	void get_help(void);
+	void preview_chart(int ct[2000][2000]);
 	int exit_command(char File_mode);
 	int exit_program(int exit_value, int r, int l, int content[2000][2000]);
 };
@@ -24,6 +25,7 @@ void ChartIO::welcome(void)
 	std::cout << "Type 'o' to open a file " << std::endl;
 	std::cout << "Type 'n' to creat a new file" << std::endl;
 	std::cout << "Type 'h' to see the history(Can't used now)" << std::endl;
+	std::cout << "Type 'r' to preview a chart(only can read)" << std::endl;
 	std::cout << "Type 'e' to exit" << std::endl;
 }
 void ChartIO::view_chart(int r, int c, int content[2000][2000])
@@ -83,7 +85,7 @@ void ChartIO::open_file(std::string file_open_path_str)
 	}
 	freopen(file_open_path, "r", stdin);
 }
-void ChartIO::get_chart(int r, int c, int content[2000][2000],char mode)
+void ChartIO::get_chart(int r, int c, int content[2000][2000])
 {
 	using namespace std;
 	for (int i = 1; i <= r; i++)
@@ -192,5 +194,31 @@ int ChartIO::exit_program(int exit_value, int r, int l, int content[2000][2000])
 		}
 		return Exit_with_save;
 	}
+}
+void ChartIO::preview_chart(int ct[2000][2000])
+{
+	std::string File_pathl = "";
+	std::cout << "Please type the path of your chart" << std::endl;
+	while (std::cin >> File_pathl)
+	{
+		const char* fp = File_pathl.c_str();
+		if (freopen(fp, "r", stdin) == NULL)
+		{
+			std::cerr << "File is not found\n" << std::endl;
+		}
+		else
+		{
+			break;
+		}
+	}
+	char is_not_exit = ' ';
+	int rw, cl;
+	std::cin >> rw >> cl;
+	ChartIO::get_chart(rw, cl, ct);
+	ChartIO::view_chart(rw, cl, ct);
+	freopen("CON", "r", stdin);
+	std::cout << "Type any key to exit\n";
+	is_not_exit = getchar();
+	return;
 }
 //End:Chart_Basic_Input_output
