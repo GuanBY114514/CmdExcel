@@ -21,44 +21,20 @@ int table_row = 0;
 string file_path;
 int main()
 {
-	chart_IO.welcome();
 	char file_mode = 'n';//文件读写模式
 	chartfunc.tolow(file_mode);
 	FILE* stream1;
-	while (cin >> file_mode)
+	chart_IO.welcome();
+	file_mode = chart_IO.choose_char_mode();
+	if (file_mode == 'r')
 	{
-		if (file_mode == 'e')
-		{
-			cout << "Command Excued\nThis program will exit in 5 seconds" << endl;
-			_sleep(5000);
-			return Exit_before_open;
-		}
-		else if (file_mode == 'o')
-		{
-			chart_IO.open_file(file_path);
-			break;
-		}
-		else if (file_mode == 'n')
-		{
-			cout << "Please type the row and collum of the chart you want to create" << endl;
-			break;
-		}
-		else if (file_mode == 'h')
-		{
-
-			return Exit_with_preview;
-		}
-		else if (file_mode == 'r')
-		{
-			chart_IO.preview_chart(chartn);
-			return Exit_with_preview;
-		}
-		else
-		{
-			cout << "Command error" << endl;
-		}
+		return Exit_with_preview;
 	}
-	if (file_mode == 'n')
+	else if(file_mode == 'e')
+	{
+		return Exit_before_open;
+	}
+	else if (file_mode == 'n')
 	{
 		while (cin >> table_row >> table_col)
 		{
@@ -101,6 +77,7 @@ int main()
 		else if (commd == "help")
 		{
 			chart_IO.get_help();
+			_sleep(5000);
 		}
 		else if (commd == "cls")
 		{

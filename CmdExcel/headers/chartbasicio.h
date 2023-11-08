@@ -4,6 +4,7 @@
 #define CHARTBASICIO_H
 #endif // !CHARTBASICIO_H
 #include<iostream>
+#include"history.h"
 #include"function.h"
 #include"exitorerror.h"
 class ChartIO
@@ -15,10 +16,12 @@ public:
 	void get_chart(int r, int c, int content[2000][2000]);
 	void get_help(void);
 	void preview_chart(int ct[2000][2000]);
+	char choose_char_mode(void);
 	int exit_command(char File_mode);
 	int exit_program(int exit_value, int r, int l, int content[2000][2000]);
 };
 Cellsfunc cedfn;
+History his;
 void ChartIO::welcome(void)
 {
 	std::cout << "Welcome to CmdExcel" << std::endl;
@@ -104,12 +107,17 @@ void ChartIO::get_help(void)
 	cout << "Commands:" << endl;
 	cout << "For the chart content:" << endl;
 	cout << "write --rewrite or write the cells" << endl;
-	cout << "add --add the cells" << endl;
 	cout << "cls --clean the screen" << endl;
 	cout << "view -- review the chart cells" << endl;
 	cout << "select --select the cells to change it" << endl;
 	cout << "For the function:" << endl;
 	cout << "sum --summation of the select cells" << endl;
+	cout << "max --The maximum value of the selected cells" << endl;
+	cout << "min --The minimum value of the selected cell" << endl;
+	cout << "average --The average value of the selected cells" << endl;
+	cout << "chkselect --Check Selected Cells" << endl;
+	cout << "addrow --add the rows" << endl;
+	cout << "addcol --add the columns" << endl;
 	cout << endl;
 }
 int ChartIO::exit_command(char File_mode)
@@ -220,5 +228,49 @@ void ChartIO::preview_chart(int ct[2000][2000])
 	std::cout << "Type any key to exit\n";
 	is_not_exit = getchar();
 	return;
+}
+char ChartIO::choose_char_mode(void)
+{
+	using namespace std;
+	char fm;
+	extern string file_path;
+	extern int chartn[2000][2000];
+	while (cin >> fm)
+	{
+		if (fm == 'e')
+		{
+			cout << "Command Excued\nThis program will exit in 5 seconds" << endl;
+			_sleep(5000);
+			break;;
+		}
+		else if (fm == 'o')
+		{
+			ChartIO::open_file(file_path);
+			break;
+		}
+		else if (fm == 'n')
+		{
+			cout << "Please type the row and collum of the chart you want to create" << endl;
+			break;
+		}
+		else if (fm == 'h')
+		{
+			his.view_history(file_path);
+			if (file_path != "")
+			{
+				break;
+			}
+		}
+		else if (fm == 'r')
+		{
+			ChartIO::preview_chart(chartn);
+			break;
+		}
+		else
+		{
+			cout << "Command error" << endl;
+		}
+	}
+	return fm;
 }
 //End:Chart_Basic_Input_output
